@@ -1,5 +1,7 @@
 # bash aliases
 
+alias userinstalled="dnf repoquery --installed --qf \"%{reason},%{name}\n\" | awk -F',' '\$1 == \"User\" {print \$2}'"
+
 alias ff="fastfetch"
 
 alias grep="grep --color=auto"
