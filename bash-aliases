@@ -1,0 +1,12 @@
+#bash_aliases
+
+alias ff="fastfetch"
+
+alias grep="grep --color=auto"
+alias fgrep="grep --color=auto"
+alias egrep="grep --color=auto"
+
+alias l="ls -CF --color=auto"
+alias ls="ls -CF --color=auto"
+alias ll="ls -alF --color=auto"
+alias la="ls -A --color=auto"
