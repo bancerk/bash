@@ -1,9 +1,4 @@
-# .bash_aliases
-
-#add to .bashrc or .bash_profile
-#if [ -f ~/.bash_aliases ]; then
-#  . ~/.bash_aliases
-#fi
+# bash aliases
 
 alias ff="fastfetch"
 
