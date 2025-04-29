@@ -13,6 +13,4 @@ alias ls="ls -CF --color=auto"
 alias ll="ls -alF --color=auto"
 alias la="ls -A --color=auto"
 
-alias whereami="cat /etc/os-release"
-
 alias podman-alpine-create-new="podman run -it alpine:latest /bin/sh"
