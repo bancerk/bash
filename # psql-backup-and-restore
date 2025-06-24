@@ -2,4 +2,5 @@
 pg_dump -U [psql username] -F t -f [backup output file name] [database name]
 
 #RESTORE
+-- create empty database before restore
 pg_restore -U [psql username] -d [database name] [backup input file name]
