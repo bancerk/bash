@@ -1,3 +1,10 @@
+# add to .bashrc if missing
+
+if [ -f ~/.bash_aliases ]; then
+. ~/.bash_aliases
+fi
+
+
 # bash aliases
 
 alias userinstalled="dnf repoquery --installed --qf \"%{reason},%{name}\n\" | awk -F',' '\$1 == \"User\" {print \$2}'"
