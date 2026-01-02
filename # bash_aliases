@@ -4,6 +4,8 @@ if [ -f ~/.bash_aliases ]; then
 . ~/.bash_aliases
 fi
 
+# Custom bash prompt
+PS1='\[\e[38;5;35m\]╭─(\[\e[38;5;38m\]\t\[\e[38;5;35m\])_(Jobs:\[\e[38;5;38m\]\j\[\e[38;5;35m\])_(\[\e[0m\]\u\[\e[38;5;35m\]@\[\e[38;5;38m\]\H\[\e[38;5;35m\])_(Dir:\[\e[38;5;38m\]\w\[\e[38;5;35m\])\n╰──\[\e[0m\]\$\[\e[38;5;35m\] \[\e[0m\]'
 
 # bash aliases
 
