@@ -10,6 +10,7 @@ PS1='\[\e[38;5;35m\]╭─(\[\e[38;5;38m\]\t\[\e[38;5;35m\])_(Jobs:\[\e[38;5;38m
 # bash aliases
 
 alias userinstalled="dnf repoquery --installed --qf \"%{reason},%{name}\n\" | awk -F',' '\$1 == \"User\" {print \$2}'"
+alias update-grub="sudo grub2-mkconfig -o /boot/grub2/grub.cfg"
 
 alias ff="fastfetch"
 
@@ -17,7 +18,7 @@ alias grep="grep --color=auto"
 alias fgrep="grep --color=auto"
 alias egrep="grep --color=auto"
 
-alias ll="ls -alF --color=auto"
+alias ll="ls -alhF --color=auto --time-style=long-iso"
 alias l="ls -CF --color=auto"
 alias la="ls -A --color=auto"
 alias ls="ls -CF --color=auto"
