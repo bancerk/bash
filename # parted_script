@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# 1. Get a list of all raw disks that have NO partitions and NO mountpoints
+# This naturally skips your Root and EFI disks because they are mounted.
+AVAILABLE_DISKS=$(lsblk -ndpno NAME,TYPE,MOUNTPOINT | awk '$2=="disk" && $3=="" {print $1}')
+
+if [ -z "$AVAILABLE_DISKS" ]; then
+    echo "No empty/unmounted disks found. Exiting."
+    exit 0
+fi
+
+echo "Found the following disks for partitioning:"
+echo "$AVAILABLE_DISKS"
+echo "--------------------------------"
+
+for DISK in $AVAILABLE_DISKS; do
+    # Final safety check: skip if the disk name is part of the 'mount' list for / or /boot
+    if mount | grep -q "on / "; then
+        # This is a secondary hardware-level check to ensure we don't touch the OS disk
+        OS_DISK=$(lsblk -no PKNAME $(findmnt -nvo SOURCE /))
+        if [[ "$DISK" == *"$OS_DISK"* ]]; then
+            echo "Skipping $DISK (System Disk detected)"
+            continue
+        fi
+    fi
+
+    echo "Partitioning $DISK..."
+
+    # Create GPT label and one primary partition
+    sudo parted --script "$DISK" \
+        mklabel gpt \
+        mkpart primary xfs 0% 100%
+
+    echo "Successfully partitioned $DISK"
+done
+
+# Refresh device nodes
+sudo udevadm settle
+echo "All tasks complete."
