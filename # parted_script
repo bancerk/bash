@@ -2,7 +2,13 @@
 
 # 1. Get a list of all raw disks that have NO partitions and NO mountpoints
 # This naturally skips your Root and EFI disks because they are mounted.
-AVAILABLE_DISKS=$(lsblk -ndpno NAME,TYPE,MOUNTPOINT | awk '$2=="disk" && $3=="" {print $1}')
+# Exclude disks that have any mounted partitions
+MOUNTED_PARENTS=$(findmnt -nvo SOURCE | xargs -r lsblk -no PKNAME 2>/dev/null | sort | uniq)
+AVAILABLE_DISKS=$(lsblk -ndpno NAME,TYPE,MOUNTPOINT | awk '$2=="disk" && $3=="" {print $1}' | while read d; do
+    if ! echo "$MOUNTED_PARENTS" | grep -q "^$d$"; then
+        echo "$d"
+    fi
+done)
 
 if [ -z "$AVAILABLE_DISKS" ]; then
     echo "No empty/unmounted disks found. Exiting."
@@ -14,6 +20,12 @@ echo "$AVAILABLE_DISKS"
 echo "--------------------------------"
 
 for DISK in $AVAILABLE_DISKS; do
+    # Check if disk has any partitions (should be empty, but double-check)
+    if lsblk -n "$DISK" | grep -q '^├─\|^└─'; then
+        echo "Skipping $DISK (Has partitions)"
+        continue
+    fi
+
     # Final safety check: skip if the disk name is part of the 'mount' list for / or /boot
     if mount | grep -q "on / "; then
         # This is a secondary hardware-level check to ensure we don't touch the OS disk
@@ -31,9 +43,14 @@ for DISK in $AVAILABLE_DISKS; do
         mklabel gpt \
         mkpart primary xfs 0% 100%
 
+    # Reread partition table
+    sudo partprobe "$DISK"
+
     echo "Successfully partitioned $DISK"
 done
 
-# Refresh device nodes
-sudo udevadm settle
+# Trigger udev to process block device changes
+sudo udevadm control --reload-rules
+sudo udevadm trigger --subsystem-match=block --action=change
+
 echo "All tasks complete."
