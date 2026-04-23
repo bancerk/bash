@@ -16,10 +16,12 @@ alias egrep="grep --color=auto"
 
 alias ls="ls -CF --color=auto"
 alias l="ls -CF --color=auto"
-alias la="ls -A --color=auto"
+alias la="ls -lhF --color=auto --time-style=long-iso"
 alias ll="ls -alhF --color=auto --time-style=long-iso"
 
 alias podman-new-alpine="podman run -it alpine:latest /bin/sh"
+
+alias admintools="distrobox enter --root admintools"
 
 
 
