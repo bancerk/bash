@@ -1,0 +1,35 @@
+" =============================================================================
+"  General Settings
+" =============================================================================
+set nocompatible              " Use Vim features, not legacy Vi
+filetype plugin indent on     " Enable filetype detection, plugins, and indent
+syntax on                     " Enable syntax highlighting
+set encoding=utf-8            " Standard encoding
+
+
+" =============================================================================
+"  User Interface
+" =============================================================================
+set number                    " Show line numbers
+set cursorline                " Highlight the current line
+set showmatch                 " Briefly jump to matching bracket
+set laststatus=2              " Always show status line (even with one file)
+
+
+" =============================================================================
+"  Search
+" =============================================================================
+set hlsearch                  " Highlight all search results
+set incsearch                 " Highlight results as you type
+set ignorecase                " Ignore case in search patterns
+set smartcase                 " ...unless the search contains a capital letter
+
+
+" =============================================================================
+"  Tabs & Indentation
+" =============================================================================
+set tabstop=4                 " 1 tab = 4 columns
+set shiftwidth=4              " Indent by 4 spaces
+set expandtab                 " Use spaces instead of tabs
+set smartindent               " Insert indents automatically
+
