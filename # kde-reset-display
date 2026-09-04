@@ -1,12 +1,8 @@
 #!/bin/bash
 
-plasmashell --replace &
-
-# Detect if the session is Wayland
 if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-    echo "Detected Wayland session"
-    kwin_wayland --replace &
-else
-    echo "Unknown/X11 session type: $XDG_SESSION_TYPE"
+    systemctl --user restart plasma-plasmashell.service
+   else
+    plasmashell --replace &
     kwin_x11 --replace &
 fi
