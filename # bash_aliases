@@ -19,6 +19,12 @@ alias l="ls -CF --color=auto"
 alias la="ls -alhF --color=auto --time-style=long-iso"
 alias ll="ls -lhF --color=auto --time-style=long-iso"
 
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+alias vi="vim"
+
 alias podman-new-alpine="podman run -it alpine:latest /bin/sh"
 
 alias admintools="distrobox enter --root admintools"
@@ -62,3 +68,8 @@ function extract () {
     echo "'$1' is not a valid file"
   fi
 }
+
+# Auto-start/attach to tmux session on login
+if [ -z "$TMUX" ] && [ -n "$PS1" ] && [ -z "$SSH_ORIGINAL_COMMAND" ]; then
+  tmux attach-session -t default 2>/dev/null || tmux new-session -s default
+fi
